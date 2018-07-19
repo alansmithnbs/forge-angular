@@ -1,22 +1,19 @@
-import { Component, ViewChild, OnInit, OnDestroy, ElementRef, Input } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, ElementRef, Input, AfterViewInit } from '@angular/core';
 
 // We need to tell TypeScript that Autodesk exists as a variables/object somewhere globally
 declare const Autodesk: any;
 
 @Component({
-  selector: 'forge-viewer',
+  selector: 'app-forge-viewer',
   templateUrl: './forge-viewer.component.html',
   styleUrls: ['./forge-viewer.component.css'],
 })
-export class ForgeViewerComponent implements OnInit, OnDestroy {
-  private selectedSection: any = null;
+export class ForgeViewerComponent implements OnDestroy, AfterViewInit {
+  public selectedSection: any = null;
   @ViewChild('viewerContainer') viewerContainer: any;
-  private viewer: any;
+  public viewer: any;
 
-  constructor(private elementRef: ElementRef) { }
-
-  ngOnInit() {
-  }
+  constructor(public elementRef: ElementRef) { }
 
   ngAfterViewInit() {
     this.launchViewer();
@@ -60,7 +57,8 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
   }
 
   private loadDocument() {
-    const urn = 'urn:<document_urn_here>';
+    // Document urn e.g. urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bmJzLW5pbWJ1cy9sYWtlc2lkZS5ydnQ
+    const urn = 'urn:URN_HERE';
 
     Autodesk.Viewing.Document.load(urn, (doc) => {
       const geometryItems = Autodesk.Viewing.Document.getSubItemsWithProperties(doc.getRootItem(), {type: 'geometry'}, true);
@@ -96,7 +94,7 @@ export class ForgeViewerComponent implements OnInit, OnDestroy {
   }
 
   private getAccessToken(onSuccess: any) {
-    const access_token = '<token_here>';
+    const access_token = 'TOKEN_HERE';
     const expires_in = 86399;
 
     onSuccess(access_token, expires_in);

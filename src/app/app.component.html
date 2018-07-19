@@ -1,5 +1,6 @@
 <h1>
   {{title}}
 </h1>
+<button (click)="show = !show">Show/hide</button>
 
-<forge-viewer></forge-viewer>
+<app-forge-viewer *ngIf="show"></app-forge-viewer>
